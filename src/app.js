@@ -66,6 +66,22 @@ app.get('/weather', (req, res) => {
 
 });
 
+app.get('/weather/location', (req, res) => {
+    if(!req.query.latitude && !req.query.longitude) {
+        return  res.send({
+            error: 'You must provide latitude and longtitude'
+        })
+    }
+    forecast(req.query.latitude, req.query.longitude, (error, forecast) => {
+        if(error) {
+            return res.send({error})
+        }
+        res.send({
+            forecast
+        })
+    })
+})
+
 app.get('/products', (req, res) => {
     if(!req.query.search) {
         return res.send({
